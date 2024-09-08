@@ -1,11 +1,13 @@
 import React from "react";
+import "./Product.css";
 
 const Product = (props) => {
   return (
-    <div>
+    <div className="product">
       <p> Product name: {props.title} </p>
-      <p> Product Price: {props.price} </p>
+      <p onClick={props.click}> Product Price: {props.price} </p>
       <p>{props.children}</p>
+      <input type="text" onChange={props.change} />
     </div>
   );
 };
