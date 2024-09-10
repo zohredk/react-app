@@ -9,6 +9,8 @@ class App extends React.Component {
       { title: "book 2", price: 89 },
       { title: "book 3", price: 79 },
     ],
+
+    showProducts: false,
   };
 
   changeTitleHandler = (event) => {
@@ -21,36 +23,69 @@ class App extends React.Component {
     });
   };
 
-  changePriceHandler = (newTitle) => {
-    this.setState({
-      products: [
-        { title: "newTitle", price: 59 },
-        { title: "book 2", price: 59 },
-        { title: "book 3", price: 59 },
-      ],
-    });
+  // changePriceHandler = (newTitle) => {
+  //   this.setState({
+  //     products: [
+  //       { title: "newTitle", price: 59 },
+  //       { title: "book 2", price: 59 },
+  //       { title: "book 3", price: 59 },
+  //     ],
+  //   });
+  // };
+
+  toggleProductHandler = () => {
+    const show = this.state.showProducts;
+    this.setState({ showProducts: !show });
   };
 
   render() {
+    const btn = {
+      backgroundColor: "#7b1fa2",
+      color: "#ffffff",
+      font: "inherit",
+      border: "none",
+      outline: "none",
+      borderRadius: "3px",
+      padding: "0.6rem",
+      margin: "0.6rem auto",
+    };
+
+    let products = null;
+
+    if (this.state.showProducts) {
+      products = (
+        <div>
+          {
+            this.state.products.map((item) => {
+              return <product title={item.title} price={item.price} />;
+            })
+            /* <Product
+            title={this.state.products[0].title}
+            price={this.state.products[0].price}
+          />
+          <Product
+            title={this.state.products[1].title}
+            price={this.state.products[1].price}
+            change={this.changeTitleHandler}
+          />
+          <Product
+            title={this.state.products[2].title}
+            price={this.state.products[2].price}
+            // click={this.changePriceHandler.bind(this.newTitle)}
+            // click={() => this.changePriceHandler("newTitle")}
+          /> */
+          }
+        </div>
+      );
+    }
+
     return (
       <div className="center">
         <h2>Book Store</h2>
-        <Product
-          title={this.state.products[0].title}
-          price={this.state.products[0].price}
-        />
-        <Product
-          title={this.state.products[1].title}
-          price={this.state.products[1].price}
-          change={this.changeTitleHandler}
-        />
-        <Product
-          title={this.state.products[2].title}
-          price={this.state.products[2].price}
-          // click={this.changePriceHandler.bind(this.newTitle)}
-          click={() => this.changePriceHandler("newTitle")}
-        />
-        <button onClick={this.changePriceHandler}>Change Price</button>
+        <button style={btn} onClick={this.toggleProductHandler}>
+          Show/Hide Products
+        </button>
+        {products}
       </div>
     );
   }
