@@ -1,41 +1,44 @@
 import React, { useState } from "react";
-import Product from "./Product/Product";
+
+import ProductList from "./ProductList/ProductList";
+
 import "./App.css";
 // Handeling states with classes
 class App extends React.Component {
   state = {
     products: [
-      { title: "book 1", price: 99 },
-      { title: "book 2", price: 89 },
-      { title: "book 3", price: 79 },
+      { id: 1, title: "book 1", price: 99 },
+      { id: 2, title: "book 2", price: 89 },
+      { id: 3, title: "book 3", price: 79 },
     ],
 
     showProducts: false,
   };
 
-  changeTitleHandler = (event) => {
-    this.setState({
-      products: [
-        { title: "book 1", price: 59 },
-        { title: event.target.value, price: 59 },
-        { title: "book 3", price: 59 },
-      ],
+  changeTitleHandler = (event, id) => {
+    const productIndex = this.state.products.findIndex((item) => {
+      return item.id === id;
     });
-  };
 
-  // changePriceHandler = (newTitle) => {
-  //   this.setState({
-  //     products: [
-  //       { title: "newTitle", price: 59 },
-  //       { title: "book 2", price: 59 },
-  //       { title: "book 3", price: 59 },
-  //     ],
-  //   });
-  // };
+    const product = { ...this.state.products[productIndex] };
+
+    product.title = event.target.value;
+
+    const products = [...this.state.products];
+    products[productIndex] = product;
+
+    this.setState({ products: products });
+  };
 
   toggleProductHandler = () => {
     const show = this.state.showProducts;
     this.setState({ showProducts: !show });
+  };
+
+  deleteProductHandler = (productIndex) => {
+    const products = [...this.state.products];
+    products.splice(productIndex, 1);
+    this.setState({ products: products });
   };
 
   render() {
@@ -55,26 +58,11 @@ class App extends React.Component {
     if (this.state.showProducts) {
       products = (
         <div>
-          {
-            this.state.products.map((item) => {
-              return <product title={item.title} price={item.price} />;
-            })
-            /* <Product
-            title={this.state.products[0].title}
-            price={this.state.products[0].price}
-          />
-          <Product
-            title={this.state.products[1].title}
-            price={this.state.products[1].price}
+          <ProductList
+            products={this.state.products}
+            click={this.deleteProductHandler}
             change={this.changeTitleHandler}
           />
-          <Product
-            title={this.state.products[2].title}
-            price={this.state.products[2].price}
-            // click={this.changePriceHandler.bind(this.newTitle)}
-            // click={() => this.changePriceHandler("newTitle")}
-          /> */
-          }
         </div>
       );
     }
@@ -90,6 +78,8 @@ class App extends React.Component {
     );
   }
 }
+
+export default App;
 
 // Handeling states with functions
 // const App = (props) => {
@@ -130,30 +120,3 @@ class App extends React.Component {
 //     </div>
 //   );
 // };
-
-export default App;
-
-// function ?
-// const App = () => {
-//   return (
-//     <div id= "main" className= "container">
-//       <h2>React App</h2>
-//       <Product />
-//     </div>
-//   )
-// };
-
-// static data
-// class App extends React.Component {
-//   render() {
-//     return (
-//       <div id="main" className="container">
-//         <h2>React App</h2>
-//         <Product title="book 1" price="99" />
-//         <Product title="book 2" price="89"/>
-//         <Product title="book 3" price="79" />
-//         <button> Change Price</button>
-//       </div>
-//     );
-//   }
-// }
