@@ -1,20 +1,35 @@
 import React, { useState } from "react";
 
 import ProductList from "./ProductList/ProductList";
-
+import Main from "./Main/Main";
 import "./App.css";
 // Handeling states with classes
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log("App.js constructor");
+  }
+
   state = {
     products: [
       { id: 1, title: "book 1", price: 99 },
       { id: 2, title: "book 2", price: 89 },
       { id: 3, title: "book 3", price: 79 },
     ],
-
     showProducts: false,
   };
 
+  componentDidMount() {
+    console.log("App.js componentDidMount");
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("App.js shouldComponentUpdate");
+    return false;
+  }
+
+  componentDidUpdate() {
+    console.log("App.js componentDidUpdate");
+  }
   changeTitleHandler = (event, id) => {
     const productIndex = this.state.products.findIndex((item) => {
       return item.id === id;
@@ -42,16 +57,7 @@ class App extends React.Component {
   };
 
   render() {
-    const btn = {
-      backgroundColor: "#7b1fa2",
-      color: "#ffffff",
-      font: "inherit",
-      border: "none",
-      outline: "none",
-      borderRadius: "3px",
-      padding: "0.6rem",
-      margin: "0.6rem auto",
-    };
+    console.log("App.js render");
 
     let products = null;
 
@@ -69,10 +75,7 @@ class App extends React.Component {
 
     return (
       <div className="center">
-        <h2>Book Store</h2>
-        <button style={btn} onClick={this.toggleProductHandler}>
-          Show/Hide Products
-        </button>
+        <Main click={this.toggleProductHandler} />
         {products}
       </div>
     );
