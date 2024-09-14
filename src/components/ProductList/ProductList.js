@@ -14,6 +14,11 @@ class ProductList extends Component {
   componentDidUpdate(prevProps, prevState) {
     console.log("ProductList, componentDidUpdate");
   }
+
+  componentWillUnmount() {
+    console.log("ProductList, componentWillUnmount");
+  }
+
   render() {
     console.log("ProductList");
     return this.props.products.map((item, index) => {
@@ -24,6 +29,7 @@ class ProductList extends Component {
           price={item.price}
           key={index.id}
           change={(event) => this.props.change(event, item.id)}
+          isAuth={this.props.isAuth}
         />
       );
     });

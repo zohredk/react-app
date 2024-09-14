@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 
 import ProductList from "./ProductList/ProductList";
 import Main from "./Main/Main";
+import Wrapper from "../hoc/Wrapper";
+import Container from "../hoc/Container";
+
 import "./App.css";
+
 // Handeling states with classes
 class App extends React.Component {
   constructor(props) {
     super(props);
-    console.log("App.js constructor");
+    // console.log("App.js constructor");
+    console.log(props.test);
   }
 
   state = {
@@ -17,14 +22,17 @@ class App extends React.Component {
       { id: 3, title: "book 3", price: 79 },
     ],
     showProducts: false,
+    showMain: true,
+    auth: false,
   };
 
   componentDidMount() {
     console.log("App.js componentDidMount");
   }
+
   shouldComponentUpdate(nextProps, nextState) {
     console.log("App.js shouldComponentUpdate");
-    return false;
+    return true;
   }
 
   componentDidUpdate() {
@@ -55,7 +63,9 @@ class App extends React.Component {
     products.splice(productIndex, 1);
     this.setState({ products: products });
   };
-
+  loginHandler = () => {
+    this.setState({ auth: true });
+  };
   render() {
     console.log("App.js render");
 
@@ -68,21 +78,35 @@ class App extends React.Component {
             products={this.state.products}
             click={this.deleteProductHandler}
             change={this.changeTitleHandler}
+            isAuth={this.state.auth}
           />
         </div>
       );
     }
 
     return (
-      <div className="center">
-        <Main click={this.toggleProductHandler} />
+      <Container>
+        <button
+          onClick={() => {
+            this.setState({ showMain: false });
+          }}
+        >
+          Remove Main
+        </button>
+        {this.state.showMain ? (
+          <Main
+            products={this.state.products}
+            click={this.toggleProductHandler}
+            login={this.loginHandler}
+          />
+        ) : null}
         {products}
-      </div>
+      </Container>
     );
   }
 }
 
-export default App;
+export default Wrapper(App, "center");
 
 // Handeling states with functions
 // const App = (props) => {
