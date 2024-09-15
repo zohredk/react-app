@@ -4,6 +4,7 @@ import ProductList from "./ProductList/ProductList";
 import Main from "./Main/Main";
 import Wrapper from "../hoc/Wrapper";
 import Container from "../hoc/Container";
+import AuthContext from "../context/auth-context";
 
 import "./App.css";
 
@@ -93,14 +94,17 @@ class App extends React.Component {
         >
           Remove Main
         </button>
-        {this.state.showMain ? (
-          <Main
-            products={this.state.products}
-            click={this.toggleProductHandler}
-            login={this.loginHandler}
-          />
-        ) : null}
-        {products}
+        <AuthContext.Provider
+          value={{ auth: this.state.auth, login: this.loginHandler }}
+        >
+          {this.state.showMain ? (
+            <Main
+              products={this.state.products}
+              click={this.toggleProductHandler}
+            />
+          ) : null}
+          {products}
+        </AuthContext.Provider>
       </Container>
     );
   }

@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import "./Product.css";
 import Wrapper from "../../hoc/Wrapper";
+import AuthContext from "../../context/auth-context";
+import authContext from "../../context/auth-context";
 
 class Product extends Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
   }
+
+  static contextType = AuthContext;
   componentDidMount() {
     this.inputRef.current.focus();
   }
@@ -15,7 +19,7 @@ class Product extends Component {
     console.log("Product");
     return (
       <React.Fragment>
-        {this.props.isAuth ? <p>Logged in!</p> : <p>Please Login!</p>}
+        {this.context.auth ? <p>Logged in!</p> : <p>Please Login!</p>}
         <p key="1" onClick={this.props.click}>
           Product name: {this.props.title}{" "}
         </p>

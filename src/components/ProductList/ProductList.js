@@ -29,7 +29,6 @@ class ProductList extends Component {
           price={item.price}
           key={index.id}
           change={(event) => this.props.change(event, item.id)}
-          isAuth={this.props.isAuth}
         />
       );
     });

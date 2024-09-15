@@ -1,7 +1,10 @@
-import React, { useEffect, useRef } from "react";
-
+import React, { useEffect, useRef, useContext } from "react";
+import AuthContext from "../../context/auth-context";
 const Main = (props) => {
   const btnRef = useRef(null);
+  const authContext = useContext(AuthContext);
+
+  console.log(authContext.auth);
 
   useEffect(() => {
     console.log("Main.js useEffect");
@@ -28,7 +31,7 @@ const Main = (props) => {
       <button ref={btnRef} style={btn} onClick={props.click}>
         Show/Hide Products
       </button>
-      <button onClick={props.login}>Login</button>
+      <button onClick={authContext.login}>Login</button>
     </div>
   );
 };
